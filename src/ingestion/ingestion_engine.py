@@ -16,20 +16,42 @@ class IngestionEngine:
 
         documents = []
 
+        parsed = 0
+        skipped = 0
+        failed = 0
+
         for file in files:
 
             logger.info(f"Processing: {file.name}")
 
-            document = self.parser_registry.parse(file)
+            try:
+                document = self.parser_registry.parse(file)
 
-            if document is None:
-                logger.warning(
-                    f"Skipping unsupported file: {file.name}"
+                if document is None:
+                    skipped += 1
+                    logger.warning(
+                        f"Skipping unsupported file: {file.name}"
+                    )
+                    continue
+                    
+                documents.append(document)
+                parsed += 1
+            
+            except Exception as e:
+                failed += 1
+                logger.error(
+                    f"Failed to parse {file.name}: {e}"
                 )
-                continue
 
-            documents.append(document)
 
-        logger.info(f"Finished. Parsed {len(documents)} documents.")
+
+        logger.info("")
+
+        logger.info("========== Synchronization Summary ==========")
+        logger.info(f"Parsed:      {parsed}")
+        logger.info(f"Skipped:    {skipped}")
+        logger.info(f"Failed:      {failed}")
+        logger.info(f"Documents:   {len(documents)}")
+        logger.info("============================================")
 
         return documents

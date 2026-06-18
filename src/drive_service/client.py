@@ -31,7 +31,7 @@ class DriveClient:
             .list(
                 q=query,
                 pageSize=100,
-                fields="files(id, name, mimeType)",
+                fields="files(id, name, mimeType, modifiedTime, createdTime)",
                 supportsAllDrives=True,
                 includeItemsFromAllDrives=True,
             )
@@ -46,6 +46,8 @@ class DriveClient:
                     id=file["id"],
                     name=file["name"],
                     mime_type=file["mimeType"],
+                    modified_time=file["modifiedTime"],
+                    created_time=file["createdTime"],
                 )
             )
         

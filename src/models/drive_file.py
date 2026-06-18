@@ -6,3 +6,5 @@ class DriveFile:
     id: str
     name: str
     mime_type: str
+    modified_time: str
+    created_time: str

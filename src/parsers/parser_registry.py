@@ -1,5 +1,6 @@
 from parsers.google_docs_parser import GoogleDocsParser
 from parsers.pdf_parser import PDFParser
+from parsers.word_parser import WordParser
 
 
 class ParserRegistry:
@@ -7,6 +8,7 @@ class ParserRegistry:
         self.parsers = {
             "application/vnd.google-apps.document": GoogleDocsParser(drive_client),
             "application/pdf": PDFParser(drive_client),
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document": WordParser(drive_client),
         }
         
 

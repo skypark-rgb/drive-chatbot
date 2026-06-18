@@ -12,6 +12,7 @@ from config import (
 from drive_service import client
 from drive_service.client import DriveClient
 
+from chunking.text_chunker import TextChunker
 
 
 def main():
@@ -32,6 +33,17 @@ def main():
     documents = engine.ingest_folder(
         GOOGLE_DRIVE_FOLDER_ID
     )
+
+    chunker = TextChunker()
+    chunks = chunker.chunk_document(documents[0])
+    print(f"\nCreated {len(chunks)} chunks:\n")
+
+    for chunk in chunks:
+        print("=" * 50)
+        print(f"Chunk {chunk.chunk_index}")
+        print("-" * 50)
+        print(chunk.text)
+        print()
 
     for document in documents:
         print("=" * 60)

@@ -8,7 +8,7 @@ class Retriever:
         self.vector_store = vector_store
         self.collection_name = collection_name
 
-    def retrieve(self, question: str, limit=5):
+    def retrieve(self, question: str, limit=10):
 
         query_embedding = self.embedding_client.embed_text(question)
 

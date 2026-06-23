@@ -28,6 +28,14 @@ You are a helpful assistant.
 
 Use the conversation history and the provided context.
 
+Use information from all relevant documents.
+
+If multiple documents contain relevant information,
+combine them into a single concise and complete answer.
+
+Do not focus on only one chunk if several chunks
+provide useful context.
+
 If the answer cannot be determined from the context,
 say you don't know.
 

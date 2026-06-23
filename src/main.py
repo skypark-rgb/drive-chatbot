@@ -184,28 +184,46 @@ def main():
 
 
 
-    question = "Who wrote The Furies?"
+    while True:
 
+        print()
+        question = input("Ask a question (or 'quit'): ")
 
+        if question.lower() in ["quit", "exit", "q"]:
+            break
 
-    print()
-    print("Question:")
-    print(question)
+        response = chat.ask(question)
 
-    response = chat.ask(question)
+        print()
+        print("Answer:")
+        print(response.answer)
 
-    print()
-    print("Answer:")
-    print(response.answer)
+        print()
+        print("Sources:")
 
-    print()
-    print("Citations:")
+        ## Old citation format (listing)
+        # for citation in response.citations:
+        #     print(
+        #         f"- {citation.document_name} "
+        #         f"(chunk {citation.chunk_index})"
+        #     )
 
-    for citation in response.citations:
-        print(
-            f"- {citation.document_name} "
-            f"(chunk {citation.chunk_index})"
-        )
+        grouped = {}
+
+        for citation in response.citations:
+            grouped.setdefault(
+                citation.document_name,
+                []
+            ).append(citation.chunk_index)
+
+        print()
+        print("Sources:")
+
+        for document_name, chunks in grouped.items():
+            print(
+                f"- {document_name} "
+                f"(chunks: {', '.join(map(str, chunks))})"
+            )
 
 
 

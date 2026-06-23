@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class Citation:
     document_name: str
     chunk_index: int
+    text: str

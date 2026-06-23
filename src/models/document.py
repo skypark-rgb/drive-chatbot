@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Document:
-    id: str
+    file_id: str
     name: str
     mime_type: str
     text: str

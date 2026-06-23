@@ -1,4 +1,4 @@
-#!/Users/skypark/Desktop/DriveChatbot/.venv/bin/python3
+#!/Users/skypark/Projects/DriveChatbot/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

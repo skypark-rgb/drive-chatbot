@@ -31,7 +31,7 @@ class DriveClient:
             .list(
                 q=query,
                 pageSize=100,
-                fields="files(id, name, mimeType, modifiedTime, createdTime)",
+                fields="files(id, name, mimeType, modifiedTime, md5Checksum, createdTime, size)",
                 supportsAllDrives=True,
                 includeItemsFromAllDrives=True,
             )
@@ -46,8 +46,10 @@ class DriveClient:
                     id=file["id"],
                     name=file["name"],
                     mime_type=file["mimeType"],
-                    modified_time=file["modifiedTime"],
-                    created_time=file["createdTime"],
+                    modified_time=file.get("modifiedTime"),
+                    created_time=file.get("createdTime"),
+                    md5_checksum=file.get("md5Checksum"),
+                    size=file.get("size"),
                 )
             )
         

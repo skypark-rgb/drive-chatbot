@@ -32,7 +32,8 @@ class TextChunker:
 
             chunks.append(
                 TextChunk(
-                    document_id=document.id,
+                    file_id=document.file_id,
+                    document_name=document.name,
                     chunk_index=chunk_index,
                     text=chunk_text,
                 )
@@ -43,3 +44,11 @@ class TextChunker:
             start += self.chunk_size - self.overlap
 
         return chunks
+
+    def chunk_documents(self, documents):
+        all_chunks = []
+
+        for document in documents:
+            all_chunks.extend(self.chunk_document(document))
+
+        return all_chunks

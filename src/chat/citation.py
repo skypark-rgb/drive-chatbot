@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
+
 @dataclass
-class TextChunk:
-    file_id: str
+class Citation:
     document_name: str
     chunk_index: int
-    text: str

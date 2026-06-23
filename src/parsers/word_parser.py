@@ -23,7 +23,7 @@ class WordParser:
                 text.append(paragraph.text)
 
         return Document(
-            id=file_metadata.id,
+            file_id=file_metadata.id,
             name=file_metadata.name,
             mime_type=file_metadata.mime_type,
             text="\n".join(text),

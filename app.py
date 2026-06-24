@@ -1,14 +1,4 @@
-# import streamlit as st
 
-# st.title("DriveChatbot")
-
-# question = st.text_input(
-#     "Ask a question about your documents"
-# )
-
-# if question:
-#     st.write("You asked:")
-#     st.write(question)
 import sys
 from pathlib import Path
 
@@ -26,20 +16,115 @@ chat = create_chatbot()
 
 st.title("DriveChatbot")
 
-question = st.text_input(
-    "Ask a question"
+
+
+question = st.chat_input(
+    "Ask questions about your Google Drive documents!"
 )
+
+
+## Recurring chat loop/history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+
+    with st.chat_message(message["role"]):
+
+        st.markdown(message["content"])
+
+        if (
+            message["role"] == "assistant"
+            and "citations" in message
+            and message["citations"]
+        ):
+
+            st.markdown("**Sources:**")
+
+            grouped = {}
+
+            for citation in message["citations"]:
+
+                grouped.setdefault(
+                    citation.document_name,
+                    set()
+                ).add(citation.chunk_index)
+
+            for document_name, chunks in grouped.items():
+
+                chunk_list = ", ".join(
+                    str(chunk)
+                    for chunk in sorted(chunks)
+                )
+
+                st.markdown(
+                    f"- **{document_name}** "
+                    f"(chunks: {chunk_list})"
+                )
+
+### end recurring chat loop/history
+
+
+
+
+
 
 if question:
 
+    # Save user message
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": question,
+        }
+    )
+
+    # Display user message
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    # Ask chatbot
     response = chat.ask(question)
 
-    st.write(response.answer)
+    answer = response.answer
 
-    st.subheader("Sources")
+    # Display assistant message
+    with st.chat_message("assistant"):
 
-    for citation in response.citations:
-        st.write(
-            f"{citation.document_name} "
-            f"(chunk {citation.chunk_index})"
-        )
+        st.markdown(answer)
+
+        if response.citations:
+
+            st.markdown("**Sources:**")
+       
+       
+            ### grouped citations by document name and chunk index
+            grouped = {}
+
+            for citation in response.citations:
+
+                grouped.setdefault(
+                    citation.document_name,
+                    set()
+                ).add(citation.chunk_index)
+
+            for document_name, chunks in grouped.items():
+
+                chunk_list = ", ".join(
+                    str(chunk)
+                    for chunk in sorted(chunks)
+                )
+
+                st.markdown(
+                    f"- **{document_name}** "
+                    f"(chunks: {chunk_list})"
+                )
+
+    # Save assistant message
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": answer,
+            "citations": response.citations,
+        }
+    )

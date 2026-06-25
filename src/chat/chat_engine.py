@@ -49,7 +49,7 @@ class ChatEngine:
         for result in search_results:
 
             key = (
-                result.payload["document_name"],
+                result.payload["file_id"],
                 result.payload["chunk_index"],
             )
 
@@ -60,6 +60,7 @@ class ChatEngine:
 
             citations.append(
                 Citation(
+                    file_id=result.payload["file_id"],
                     document_name=result.payload["document_name"],
                     chunk_index=result.payload["chunk_index"],
                     text=result.payload["text"],

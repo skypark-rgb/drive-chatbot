@@ -47,18 +47,21 @@ for message in st.session_state.messages:
 
                 grouped.setdefault(
                     citation.document_name,
-                    set()
-                ).add(citation.chunk_index)
+                    {
+                        "url": citation.url,
+                        "chunks": set(),
+                    }
+                )["chunks"].add(citation.chunk_index)
 
-            for document_name, chunks in grouped.items():
+            for document_name, source_info in grouped.items():
 
                 chunk_list = ", ".join(
                     str(chunk)
-                    for chunk in sorted(chunks)
+                    for chunk in sorted(source_info["chunks"])
                 )
 
                 st.markdown(
-                    f"- **{document_name}** "
+                    f"- [{document_name}]({source_info['url']}) "
                     f"(chunks: {chunk_list})"
                 )
 
@@ -105,18 +108,21 @@ if question:
 
                 grouped.setdefault(
                     citation.document_name,
-                    set()
-                ).add(citation.chunk_index)
+                    {
+                        "url": citation.url,
+                        "chunks": set(),
+                    }
+                )["chunks"].add(citation.chunk_index)
 
-            for document_name, chunks in grouped.items():
+            for document_name, source_info in grouped.items():
 
                 chunk_list = ", ".join(
                     str(chunk)
-                    for chunk in sorted(chunks)
+                    for chunk in sorted(source_info["chunks"])
                 )
 
                 st.markdown(
-                    f"- **{document_name}** "
+                    f"- [{document_name}]({source_info['url']}) "
                     f"(chunks: {chunk_list})"
                 )
 

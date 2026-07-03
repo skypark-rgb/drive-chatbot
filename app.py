@@ -12,7 +12,10 @@ import streamlit as st
 
 from chatbot.chatbot_factory import create_chatbot
 
-chat = create_chatbot()
+if "chatbot" not in st.session_state:
+    st.session_state.chatbot = create_chatbot()
+
+chat = st.session_state.chatbot
 
 st.title("DriveChatbot")
 

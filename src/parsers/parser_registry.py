@@ -1,6 +1,8 @@
 from parsers.google_docs_parser import GoogleDocsParser
 from parsers.pdf_parser import PDFParser
 from parsers.word_parser import WordParser
+from parsers.google_sheets_parser import GoogleSheetsParser
+from parsers.excel_parser import ExcelParser
 
 
 class ParserRegistry:
@@ -9,6 +11,8 @@ class ParserRegistry:
             "application/vnd.google-apps.document": GoogleDocsParser(drive_client),
             "application/pdf": PDFParser(drive_client),
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document": WordParser(drive_client),
+            "application/vnd.google-apps.spreadsheet": GoogleSheetsParser(drive_client),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ExcelParser(drive_client),
         }
         
 

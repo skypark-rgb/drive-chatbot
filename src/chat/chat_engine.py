@@ -15,10 +15,17 @@ class ChatEngine:
 
     def ask(self, question: str):
 
-        search_results = self.retriever.retrieve(question)
+        standalone_question = self.rewrite_question(question)
+
+        print()
+        print("Original question:", question)
+        print("Standalone question:", standalone_question)
+        print()
+
+        search_results = self.retriever.retrieve(standalone_question)
 
         prompt = self.prompt_builder.build(
-            question=question,
+            question=standalone_question,
             search_results=search_results,
             history=self.history,
         )
@@ -70,4 +77,43 @@ class ChatEngine:
 
 
         return ChatResponse(answer=answer, citations=citations)
+
+    def rewrite_question(self, question: str) -> str:
+        if not self.history:
+            return question
+
+        history_text = ""
+
+        for message in self.history[-6:]:
+            history_text += (
+                f"{message['role']}: "
+                f"{message['content']}\n"
+            )
+
+        prompt = f"""
+    You rewrite follow-up questions for a retrieval system.
+
+    Use the conversation history to replace pronouns and vague references.
+
+    Important:
+    - "his", "he", "him", "that person", or "the person" should refer to the main person discussed in the previous question/answer.
+    - Return only the rewritten standalone question.
+    - Do not answer the question.
+    - Do not explain.
+
+    Conversation History:
+    {history_text}
+
+    Current Question:
+    {question}
+
+    Rewritten standalone question:
+    """
+
+        rewritten_question = self.embedding_client.chat(prompt).strip()
+
+        if not rewritten_question:
+            return question
+
+        return rewritten_question
     

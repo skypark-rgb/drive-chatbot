@@ -75,3 +75,12 @@ class DriveClient:
         )
 
         return request.execute().decode("utf-8")
+
+
+    def export_google_sheet_as_csv(self, file_id: str) -> str:
+        request = self.service.files().export_media(
+            fileId=file_id,
+            mimeType="text/csv",
+        )
+
+        return request.execute().decode("utf-8")

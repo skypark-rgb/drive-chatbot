@@ -20,6 +20,44 @@ chat = st.session_state.chatbot
 st.title("DriveChatbot")
 
 
+ALLOWED_EMAILS = {
+    "sky.park@chicagocred.com",
+}
+
+with st.sidebar:
+
+    st.header("🔒 Authentication")
+
+    st.caption("Prototype UI")
+
+    user_email = st.text_input(
+        "Work Email",
+        placeholder="name@chicagocred.org",
+    )
+
+    st.divider()
+
+    st.subheader("Deployment")
+
+    st.write("**Drive Access:** Read-only Service Account")
+
+    st.write("**Authentication:**")
+    st.write("• Prototype email allowlist")
+    st.write("• Future Google Workspace login")
+
+    st.write("**Authorization:**")
+    st.write("• Team-based access (planned)")
+    st.write("• Shared company knowledge")
+    st.write("• Team-specific knowledge")
+
+if user_email not in ALLOWED_EMAILS:
+    st.warning("You are not authorized to use this prototype.")
+    st.stop()
+
+
+
+
+
 
 question = st.chat_input(
     "Ask questions about your Google Drive documents!"

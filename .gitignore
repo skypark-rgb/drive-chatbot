@@ -1,7 +1,20 @@
 __pycache__/
 *.pyc
-.env
+
+# Python
 .venv/
+.env
+
+# Local data
 data/
 credentials/
-.env
+
+# Local databases
+*.db
+*.sqlite
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# macOS
+.DS_Store

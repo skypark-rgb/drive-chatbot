@@ -7,15 +7,29 @@ from urllib3 import request
 
 from models.drive_file import DriveFile
 
+import json
+
 
 class DriveClient:
     def __init__(self, credentials_path: str):
         self.credentials_path = credentials_path
 
-        self.credentials = service_account.Credentials.from_service_account_file(
-            credentials_path,
-            scopes=["https://www.googleapis.com/auth/drive.readonly"],
-        )
+        from config import GOOGLE_SERVICE_ACCOUNT_INFO
+
+        if GOOGLE_SERVICE_ACCOUNT_INFO:
+            service_account_info = json.loads(GOOGLE_SERVICE_ACCOUNT_INFO)
+
+            self.credentials = service_account.Credentials.from_service_account_info(
+                service_account_info,
+                scopes=["https://www.googleapis.com/auth/drive.readonly"],
+            )
+        else:
+            self.credentials = service_account.Credentials.from_service_account_file(
+                credentials_path,
+                scopes=["https://www.googleapis.com/auth/drive.readonly"],
+            )
+
+
 
         self.service = build(
             "drive",

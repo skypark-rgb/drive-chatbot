@@ -13,7 +13,7 @@ class PromptBuilder:
                 f"{message['role']}: "
                 f"{message['content']}\n"
             )
-        # end for memeory
+        # end for memory
 
         for result in search_results:
             payload = result.payload
@@ -23,6 +23,8 @@ class PromptBuilder:
                 f"{payload['text']}\n\n"
             )
 
+
+### chatbot instructions
         return f"""
 You are an internal knowledge base assistant.
 

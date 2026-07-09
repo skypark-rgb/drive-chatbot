@@ -22,6 +22,8 @@ st.title("DriveChatbot")
 
 ALLOWED_EMAILS = {
     "sky.park@chicagocred.com",
+    "janselmo@chicagocred.com",
+    "jack@chicagocred.com",
 }
 
 with st.sidebar:

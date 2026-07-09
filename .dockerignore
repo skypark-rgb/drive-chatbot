@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+data/
+credentials/
+.env
+.streamlit/secrets.toml
+*.db
+*.sqlite
+*.xlsx
+.DS_Store

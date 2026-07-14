@@ -17,3 +17,6 @@ QDRANT_PATH = os.getenv("QDRANT_PATH", "data/qdrant")
 QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION", "drive_documents")
 
 SYNC_DATABASE_PATH = os.getenv("SYNC_DATABASE_PATH", "data/sync.db")
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+VECTOR_STORE = os.getenv("VECTOR_STORE", "qdrant")
